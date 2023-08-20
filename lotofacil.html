@@ -1,46 +1,90 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gerar lotofácil</title>
+  <title>Gerador de Números Aleatórios</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+    }
+    h2 {
+      margin-bottom: 10px;
+    }
+    form {
+      margin-bottom: 20px;
+    }
+    label {
+      margin-right: 10px;
+    }
+    #generateButton {
+      background-color: #007bff;
+      color: white;
+      border: none;
+      padding: 8px 16px;
+      cursor: pointer;
+    }
+    #randomNumbers {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .randomNumber {
+      background-color: #007bff;
+      color: white;
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+    }
+  </style>
 </head>
 <body>
-    <header>
-        <h1>Lotofácil</h1>
-        <hr>
-    </header>
-    <main>
-        <form action="#" method="POST">
-            <p>Quantos números deseja marcar:</p>
-            <p>
-                <label>
-                    <input type="radio" name="quantidade" value="15"> 15
-                </label>
-            </p>
-            <p>
-                <label>
-                    <input type="radio" name="quantidade" value="16"> 16
-                </label>
-            </p>
-            <p>
-                <label>
-                    <input type="radio" name="quantidade" value="17"> 17
-                </label>
-            </p>
-            <p>
-                <label>
-                    <input type="radio" name="quantidade" value="18"> 18
-                </label>
-            </p>
-            <p>
-                <label>
-                    <input type="radio" name="quantidade" value="19"> 19
-                </label>
-            </p>
-            <hr>
-            <p></p>
-        </form>
-    </main>
+  <h2>Quantos números aleatórios você quer gerar?</h2>
+  <form id="randomNumberForm">
+    <label><input type="radio" name="quantity" value="15" checked> 15</label>
+    <label><input type="radio" name="quantity" value="16"> 16</label>
+    <label><input type="radio" name="quantity" value="17"> 17</label>
+    <label><input type="radio" name="quantity" value="18"> 18</label>
+    <label><input type="radio" name="quantity" value="19"> 19</label>
+    <label><input type="radio" name="quantity" value="20"> 20</label>
+    <button type="button" id="generateButton">Gerar Números</button>
+  </form>
+
+  <h2>Números Aleatórios Gerados:</h2>
+  <div id="randomNumbers"></div>
+
+  <script>
+    document.getElementById("generateButton").addEventListener("click", function() {
+      const quantity = parseInt(document.querySelector('input[name="quantity"]:checked').value);
+      const randomNumberDiv = document.getElementById("randomNumbers");
+      randomNumberDiv.innerHTML = ""; // Limpar números anteriores
+
+      const availableNumbers = Array.from({ length: 25 }, (_, i) => i + 1); // Números de 1 a 25
+      const randomNumbers = [];
+
+      if (quantity > availableNumbers.length) {
+        alert("Quantidade selecionada é maior do que os números disponíveis.");
+        return;
+      }
+
+      for (let i = 0; i < quantity; i++) {
+        const randomIndex = Math.floor(Math.random() * availableNumbers.length);
+        const randomNum = availableNumbers.splice(randomIndex, 1)[0];
+        
+        randomNumbers.push(randomNum);
+      }
+
+      randomNumbers.sort((a, b) => a - b); // Ordenar em ordem crescente
+
+      randomNumbers.forEach(num => {
+        const numElement = document.createElement("div");
+        numElement.classList.add("randomNumber");
+        numElement.textContent = num;
+        randomNumberDiv.appendChild(numElement);
+      });
+    });
+  </script>
 </body>
 </html>
